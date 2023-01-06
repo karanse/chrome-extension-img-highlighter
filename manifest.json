@@ -1,0 +1,32 @@
+{
+    "name": "Extension Playground Public",
+    "version": "0.1.0",
+    "description": "Popup example",
+    "manifest_version": 3,
+
+    "permissions": ["activeTab",  "scripting", "storage"],
+    "icons": {
+        "16": "icon-16.png"
+    },
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+        "default_icon": {
+            "16": "icon-16.png"
+
+        },
+        "default_title": "Popup Extensions",
+        "default_popup": "popup.html"
+      },
+      "content_scripts": [
+          {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+          }
+          
+      ]
+  
+    
+  
+  }
