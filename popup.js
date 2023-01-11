@@ -19,22 +19,67 @@ const setDOMInfo = info => {
   });
 
  
-
+ 
   // When the user clicks the button on popup, web components are highlighted
-  let button = document.getElementById('btn');
-
-  async function getCurrentTabId() {
+  async function getCurrentTab() {
     let queryOptions = { active: true, lastFocusedWindow: true };
     let [tab] = await chrome.tabs.query(queryOptions);
     return tab;
   }
 
 
-  button.addEventListener('click', async (tab) => {
-    let currentTab = getCurrentTabId();
-    // Insert the .js file to highlight the img elements on the webpage
-    await chrome.scripting.executeScript({
-      files: ["element-highlighter.js"],
-      target: { tabId: currentTab.id},
+  let btnContainer = document.getElementById("btn-container");
+  btnContainer.addEventListener('click', (e) => {
+    if ( e.target.classList == "OFF") {
+      e.target.classList.remove("OFF");
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({
+          target: {tabId: tabs[0].id},
+          files: ["img-highlighter.js"]
+        });
       });
+      e.target.classList.add("ON");
+      console.log(e.target.classList)
+    } else if (e.target.classList == "ON") {
+      e.target.classList.remove("ON");
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        chrome.scripting.executeScript({
+          target: {tabId: tabs[0].id},
+          files: ["highlight-remove.js"]
+        });
+      });
+      e.target.classList.add("OFF");
+      console.log(e.target.classList);
+    }
+  })
+
+
+
+
+
+
+    /*
+
+    
+  let button1 = document.getElementById("btn1");
+  let button2 = document.getElementById("btn2");
+  
+  button1.addEventListener('click', async (tab) => {
+    let currentTab = await getCurrentTab();
+    console.log(currentTab.id);
+     // Insert the .js file to highlight the img elements on the webpage
+    await chrome.scripting.executeScript({
+      target: {tabId: currentTab.id},
+      files: ["img-highlighter.js"]
     });
+    });
+
+  button2.addEventListener('click', async (tab) => {
+    let currentTab = await getCurrentTab();
+    console.log(currentTab.id);
+  await chrome.scripting.executeScript({
+      target: {tabId: currentTab.id},
+      files: ["highlight-remove.js"]
+  });
+    });
+    */

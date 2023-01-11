@@ -38,14 +38,17 @@
     }
     
     componentHighlighter();
-    
-    function componentHighlightRemove(document) {
-        const svgElement = document.getElementsByClassName('highlighter')[0];
+
+    function componentHighlightRemove() {
+      const svgElement = document.getElementsByClassName('highlighter')[0];
+      if (svgElement) {
         document.body.removeChild(svgElement);
       }
-      
-      function cleanup() {
-        componentHighlightRemove();
-      }
+    }
+    
+    function cleanup() {
+      componentHighlightRemove();
+    }
+    
     }
     
